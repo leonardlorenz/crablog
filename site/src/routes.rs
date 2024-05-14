@@ -1,6 +1,6 @@
 use crate::db;
 
-use super::CONFIG_MAP;
+use super::CONFIG;
 use actix_web::{error, get, http::StatusCode, web, Error, HttpResponse};
 use tera::Context;
 
@@ -38,24 +38,30 @@ async fn about(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
     let mut context = Context::new();
     context.insert(
         "username",
-        CONFIG_MAP.read().unwrap().get("USERNAME").unwrap(),
+        &CONFIG.username
     );
-    context.insert("email", CONFIG_MAP.read().unwrap().get("EMAIL").unwrap());
-    if let Some(acc) = CONFIG_MAP.read().unwrap().get("GITHUB_ACCOUNT") {
-        context.insert("github_account", acc);
-    }
-    if let Some(acc) = CONFIG_MAP.read().unwrap().get("TWITTER_ACCOUNT") {
-        context.insert("twitter_account", acc);
-    }
-    if let Some(acc) = CONFIG_MAP.read().unwrap().get("MASTODON_ACCOUNT") {
-        context.insert("mastodon_account", acc);
-    }
-    if let Some(acc) = CONFIG_MAP.read().unwrap().get("DISCORD_ACCOUNT") {
-        context.insert("discord_account", acc);
-    }
-    if let Some(acc) = CONFIG_MAP.read().unwrap().get("REDDIT_ACCOUNT") {
-        context.insert("reddit_account", acc);
-    }
+    context.insert("email", &CONFIG.email);
+
+    match &CONFIG.accounts.github { 
+        Some(acc) => context.insert("github_account", &acc),
+        None => ()
+    };
+    match &CONFIG.accounts.twitter { 
+        Some(acc) => context.insert("twitter_account", &acc),
+        None => ()
+    };
+    match &CONFIG.accounts.mastodon { 
+        Some(acc) => context.insert("mastodon_account", &acc),
+        None => ()
+    };
+    match &CONFIG.accounts.reddit { 
+        Some(acc) => context.insert("reddit_account", &acc),
+        None => ()
+    };
+    match &CONFIG.accounts.discord { 
+        Some(acc) => context.insert("discord_account", &acc),
+        None => ()
+    };
 
     let result = tmpl
         .render("about.html", &context)
@@ -70,10 +76,7 @@ async fn blog(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
     context.insert("posts", &posts);
-    context.insert(
-        "username",
-        CONFIG_MAP.read().unwrap().get("USERNAME").unwrap(),
-    );
+    context.insert("username", &CONFIG.username);
 
     let result = tmpl
         .render("blog.html", &context)
@@ -88,10 +91,7 @@ async fn blog_all(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
     context.insert("posts", &posts);
-    context.insert(
-        "username",
-        CONFIG_MAP.read().unwrap().get("USERNAME").unwrap(),
-    );
+    context.insert("username", &CONFIG.username);
 
     let result = tmpl
         .render("blog-all-posts.html", &context)
@@ -103,7 +103,7 @@ async fn blog_all(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 #[get("/id/{post_id}")]
 async fn blog_by_id(
     tmpl: web::Data<tera::Tera>,
-    post_id: web::Path<(String)>
+    post_id: web::Path<String>
     // web::Path(post_id): web::Path<String>,
 ) -> Result<HttpResponse, Error> {
     let (valid, id) = id_valid(post_id.into_inner());
@@ -116,10 +116,7 @@ async fn blog_by_id(
 
         let mut context = Context::new();
         context.insert("post", &post);
-        context.insert(
-            "username",
-            CONFIG_MAP.read().unwrap().get("USERNAME").unwrap(),
-        );
+        context.insert("username", &CONFIG.username);
 
         let result = tmpl
             .render("blog-by-id.html", &context)
@@ -148,10 +145,7 @@ async fn blog_submit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error>
 async fn blog_edit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
     let mut context = Context::new();
     context.insert("posts", &db::get_all_posts());
-    context.insert(
-        "username",
-        CONFIG_MAP.read().unwrap().get("USERNAME").unwrap(),
-    );
+    context.insert("username", &CONFIG.username);
 
     let result = tmpl
         .render("edit.html", &context)
@@ -163,7 +157,7 @@ async fn blog_edit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 #[get("/edit/{post_id}")]
 async fn blog_edit_by_id(
     tmpl: web::Data<tera::Tera>,
-    post_id: web::Path<(String)>
+    post_id: web::Path<String>
 ) -> Result<HttpResponse, Error> {
     let (valid, id) = id_valid(post_id.into_inner());
     if valid {
