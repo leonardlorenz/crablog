@@ -26,16 +26,16 @@ async fn blog_create_post(form: Form<NewPostForm>) -> impl Responder {
     }
 
     HttpResponse::MovedPermanently()
-        .set_header("LOCATION", "/blog")
+        .insert_header(("LOCATION", "/blog"))
         .finish()
 }
 
 #[post("/api/blog/posts/edit/{post_id}")]
 async fn blog_edit_post(
-    web::Path(post_id): web::Path<std::string::String>,
+    post_id: web::Path<String>,
     form: Form<NewPostForm>,
 ) -> impl Responder {
-    let (valid, id) = id_valid(post_id);
+    let (valid, id) = id_valid(post_id.into_inner());
     if valid && *CONFIG_MAP.read().unwrap().get("SUBMIT_TOKEN").unwrap() == form.token {
         edit_post_by_id(
             id as i32,
@@ -49,16 +49,16 @@ async fn blog_edit_post(
     }
 
     return HttpResponse::MovedPermanently()
-        .set_header("LOCATION", "/blog")
+        .insert_header(("LOCATION", "/blog"))
         .finish();
 }
 
 #[post("/api/blog/posts/delete/{post_id}")]
 async fn blog_delete_post(
-    web::Path(post_id): web::Path<std::string::String>,
+    post_id: web::Path<String>,
     form: Form<BlogActionForm>,
 ) -> impl Responder {
-    let (valid, id) = id_valid(post_id);
+    let (valid, id) = id_valid(post_id.into_inner());
     if valid && *CONFIG_MAP.read().unwrap().get("SUBMIT_TOKEN").unwrap() == form.token {
         println!("Deleted post: {}", id);
         delete_post_by_id(id as i32);
@@ -68,16 +68,16 @@ async fn blog_delete_post(
     }
 
     return HttpResponse::MovedPermanently()
-        .set_header("LOCATION", "/blog")
+        .insert_header(("LOCATION", "/blog"))
         .finish();
 }
 
 #[post("/api/blog/posts/hide/{post_id}")]
 async fn blog_hide_post(
-    web::Path(post_id): web::Path<std::string::String>,
+    post_id: web::Path<String>,
     form: Form<BlogActionForm>,
 ) -> impl Responder {
-    let (valid, id) = id_valid(post_id);
+    let (valid, id) = id_valid(post_id.into_inner());
     if valid && *CONFIG_MAP.read().unwrap().get("SUBMIT_TOKEN").unwrap() == form.token {
         println!("Hid post: {}", id);
         hide_post_by_id(id as i32);
@@ -87,7 +87,7 @@ async fn blog_hide_post(
     }
 
     return HttpResponse::MovedPermanently()
-        .set_header("LOCATION", "/blog")
+        .insert_header(("LOCATION", "/blog"))
         .finish();
 }
 

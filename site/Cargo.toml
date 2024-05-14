@@ -1,24 +1,24 @@
 [package]
 name = "crablog"
-version = "0.3.1"
-authors = ["Leonard Lorenz <dev@leonardlorenz.de>"]
+version = "0.4.0"
+authors = ["mtrx <me@mtrx.tech>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 chrono = { version = "*", features = ["serde"] }
-actix-web = "3.3.2"
-actix-files = "0.4.0"
+actix-web = "4.5.1"
+actix-files = "0.6.5"
 
-serde = { version = "1.0.125", features = ["derive"] }
+serde = { version = "1.0.201", features = ["derive"] }
 serde_json = "*"
 serde_derive = "*"
 
 diesel = { version = "1.4.6", default-features = false, features = ["sqlite", "chrono"] }
 diesel_codegen = { version = "0.16.1", default-features = false }
 
-uuid = { version = "0.8.2", features = ["serde", "v5"] }
+uuid = { version = "1.8.0", features = ["serde", "v5"] }
 
 tera = "1.8.0"
 

@@ -9,7 +9,7 @@ extern crate serde_derive;
 extern crate tera;
 
 use actix_files as fs;
-use actix_web::{middleware::Logger, App, HttpServer};
+use actix_web::{middleware::Logger, web::Data, App, HttpServer};
 use env_logger::Env;
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, env, sync::RwLock};
@@ -90,7 +90,7 @@ async fn main() -> std::io::Result<()> {
         env_logger::Builder::from_env(Env::default().default_filter_or("info"));
 
         App::new()
-            .data(tera)
+            .app_data(Data::new(tera))
             .service(routes::about)
             .service(routes::blog)
             .service(routes::blog_all)

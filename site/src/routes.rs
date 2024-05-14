@@ -103,9 +103,10 @@ async fn blog_all(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 #[get("/id/{post_id}")]
 async fn blog_by_id(
     tmpl: web::Data<tera::Tera>,
-    web::Path(post_id): web::Path<std::string::String>,
+    post_id: web::Path<(String)>
+    // web::Path(post_id): web::Path<String>,
 ) -> Result<HttpResponse, Error> {
-    let (valid, id) = id_valid(post_id);
+    let (valid, id) = id_valid(post_id.into_inner());
     if valid {
         let post = db::get_post_by_id(id as i32);
 
@@ -162,9 +163,9 @@ async fn blog_edit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 #[get("/edit/{post_id}")]
 async fn blog_edit_by_id(
     tmpl: web::Data<tera::Tera>,
-    web::Path(post_id): web::Path<std::string::String>,
+    post_id: web::Path<(String)>
 ) -> Result<HttpResponse, Error> {
-    let (valid, id) = id_valid(post_id);
+    let (valid, id) = id_valid(post_id.into_inner());
     if valid {
         let mut post = db::get_post_by_id(id as i32);
 
