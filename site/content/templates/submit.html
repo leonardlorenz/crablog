@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Submit post" />
-    <meta property="og:image" content="/static/site-image.png" />
 
-    <title>Submit post</title>
-    <link rel="stylesheet" href="/static/css/blog.css">
-    <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico"/>
-  </head>
-  <body>
-    <div id="cookie-block" hidden>
-      <p>Please set your token cookie first.</p>
-      <input id="set-token" type="text" name="set-token">
-      <button onclick="setTokenCookie()">Set Token Cookie</button>
-    </div>
-    <button onclick="clearTokenCookie()">Clear Token Cookie</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Submit post" />
+  <meta property="og:image" content="/static/site-image.png" />
 
-    <form id="submit-form" action="/api/blog/create" method=POST>
-      <input class="token" type="text" name="token" hidden>
-      <label for="title">Title</label>
-      <textarea id="submit-title" type="text" name="title">{{ title }}</textarea>
-      <br>
-      <label for="submit-body">Content</label>
-      <textarea id="submit-body" type="text" name="body">{{ body }}</textarea>
-      <br>
-      <button id="submit-button" type="submit">Submit</button>
-    </form>
-    <script src="/static/js/blog.js"></script>
-  </body>
+  <title>Submit post</title>
+  <link rel="stylesheet" href="/static/css/blog.css">
+  <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico" />
+</head>
+
+<body>
+  <div id="cookie-block" hidden>
+    <label for="token">Password</label>
+    <br />
+    <input id="token" type="password" name="token">
+  </div>
+
+  <form id="submit-form" action="/api/blog/create" method=POST>
+    <input class="token" type="text" name="token" hidden>
+    <label for="title">Title</label>
+    <textarea id="submit-title" type="text" name="title">{{ title }}</textarea>
+    <br>
+    <label for="submit-body">Content</label>
+    <textarea id="submit-body" type="text" name="body">{{ body }}</textarea>
+    <br>
+    <button id="submit-button" type="submit">Submit</button>
+  </form>
+</body>
+
 </html>

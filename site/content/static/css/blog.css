@@ -10,13 +10,18 @@ html {
   padding-left: 20%;
 }
 
-img {
+.social-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.post-img {
   width: 50%;
   padding: 20px 0px 20px 0px;
 }
 
 article {
-  padding-top: 2em;
+  padding-top: 2rem;
   display: flex;
 }
 
@@ -29,20 +34,21 @@ article {
 }
 
 .post-publish-date {
-  font-size: 0.7em;
+  font-size: 0.7rem;
 }
 
 .post-body {
-  padding-top: 1em;
+  padding-top: 1rem;
 }
 
 #submit-form {
-  padding-top: 2em;
+  padding-top: 2rem;
 }
 
-#submit-body, #submit-title {
+#submit-body,
+#submit-title {
   width: 100%;
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
   resize: none;
 }
 

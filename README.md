@@ -29,18 +29,18 @@ All configuration options are defined in .env which should be placed in the path
 
 `.env`
 ```
-USERNAME=yourusername
-EMAIL=me@mydomain.tld # optional
-BIND_PORT=8000 # optional
-SUBMIT_TOKEN=Submit!123 # required, token needed for submitting
-GITHUB_ACCOUNT=yourusername # optional
-TWITTER_ACCOUNT=yourusername # optional
-MASTODON_ACCOUNT=yourusername@mastodon.social # optional
-REDDIT_ACCOUNT=yourusername # optional
-DISCORD_ACCOUNT=yourusername # optional
+CL_USERNAME=yourusername
+CL_EMAIL=me@mydomain.tld # optional
+CL_BIND_PORT=8000 # optional
+CL_SUBMIT_TOKEN=Submit!123 # required, token needed for submitting
+CL_GITHUB_ACCOUNT=yourusername # optional
+CL_TWITTER_ACCOUNT=yourusername # optional
+CL_MASTODON_ACCOUNT=yourusername@mastodon.social # optional
+CL_REDDIT_ACCOUNT=yourusername # optional
+CL_DISCORD_ACCOUNT=yourusername # optional
 
 # only needed when not using a docker container
-ROOT_PATH=/path/to/template/directory/and/sqliteDB
+CL_ROOT_PATH=/path/to/template/directory/and/sqliteDB
 ```
 
 ## Routes

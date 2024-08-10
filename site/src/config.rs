@@ -7,12 +7,12 @@ pub struct Config {
     pub submit_token: String,
     pub root_path: String,
     pub username: String,
-    pub email: String,
     pub bind_port: String,
     pub accounts: Accounts,
 }
 
 pub struct Accounts {
+    pub email: Option<String>,
     pub github: Option<String>,
     pub twitter: Option<String>,
     pub mastodon: Option<String>,
@@ -68,9 +68,9 @@ fn load_config() -> Config {
         submit_token: eval_conf_var("SUBMIT_TOKEN", true, None).unwrap(),
         root_path: eval_conf_var("ROOT_PATH", false, Some("./content")).unwrap(),
         username: eval_conf_var("USERNAME", true, None).unwrap(),
-        email: eval_conf_var("EMAIL", false, None).unwrap(),
         bind_port: eval_conf_var("BIND_PORT", false, Some("8000")).unwrap(),
         accounts: Accounts {
+            email: eval_conf_var("EMAIL", false, None),
             github: eval_conf_var("GITHUB_ACCOUNT", false, None),
             discord: eval_conf_var("DISCORD_ACCOUNT", false, None),
             twitter: eval_conf_var("TWITTER_ACCOUNT", false, None),

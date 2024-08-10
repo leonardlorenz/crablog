@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="{{ username }}' site'" />
-    <meta property="og:image" content="/static/site-image.png" />
 
-    <title>{{ username }}' site</title>
-    <link rel="stylesheet" href="/static/css/index.css">
-    <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico"/>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="{{ username }}' site'" />
+  <meta property="og:image" content="/static/site-image.png" />
 
-  <body>
-    <h1>Hi, I'm {{ username }}</h1>
-    <p style="text-align: right">
-      <a href="/">Back to the blog</a>
-    </p>
-    <p>
-    This is my blog. If you have questions or input for me please send me an E-Mail to {{ email }}
-    </p>
-    <br>
-    <p>
-    <ul style="list-style: none;">
-      {% if github_account %}
-      <li><img class="social-icon" src="/static/social-icons/github.ico"><a href="https://github.com/{{ github_account }}"> {{ github_account }}</a></li>
-      {% endif %}
-      {% if twitter_account %}
-      <li><img class="social-icon" src="/static/social-icons/twitter.ico"><a href="https://twitter.com/{{ twitter_account }}"> {{ twitter_account }}</a></li>
-      {% endif %}
-      {% if reddit_account %}
-      <li><img class="social-icon" src="/static/social-icons/reddit.ico"><a href="https://reddit.com/u/{{ reddit_account }}"> {{ reddit_account }}</a></li>
-      {% endif %}
-      {% if mastodon_account %}
-      <li><img class="social-icon" src="/static/social-icons/mastodon.ico"><a href="https://mastodon.social/"> {{ mastodon_account }}</a></li>
-      {% endif %}
-      {% if discord_account %}
-      <li><img class="social-icon" src="/static/social-icons/discord.ico"><a href="https://discord.com/"> {{ discord_account }}</a></li>
-      {% endif %}
-    </ul>
-    </p>
-  </body>
+  <title>{{ username }}' site</title>
+  <link rel="stylesheet" href="/static/css/blog.css">
+  <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico" />
+</head>
+
+<body>
+  <h1>Hi, I'm {{ username }}</h1>
+  <p style="text-align: right">
+    <a href="/">Back to the blog</a>
+  </p>
+  <p>
+    This is my blog.
+
+    {% if email %}
+    If you have questions or input for me please send me an E-Mail to <img class="social-icon"
+      src="/static/social-icons/mail.png" /> {{ email }}
+    {% endif %}
+  </p>
+  <br>
+  <p>
+  <ul style="list-style: none;">
+    {% if github_account %}
+    <li><img class="social-icon" src="/static/social-icons/github.ico"><a
+        href="https://github.com/{{ github_account }}"> {{ github_account }}</a></li>
+    {% endif %}
+    {% if twitter_account %}
+    <li><img class="social-icon" src="/static/social-icons/twitter.ico"><a
+        href="https://twitter.com/{{ twitter_account }}"> {{ twitter_account }}</a></li>
+    {% endif %}
+    {% if reddit_account %}
+    <li><img class="social-icon" src="/static/social-icons/reddit.ico"><a
+        href="https://reddit.com/u/{{ reddit_account }}"> {{ reddit_account }}</a></li>
+    {% endif %}
+    {% if mastodon_account %}
+    <li><img class="social-icon" src="/static/social-icons/mastodon.ico"><a href="https://mastodon.social/"> {{
+        mastodon_account }}</a></li>
+    {% endif %}
+    {% if discord_account %}
+    <li><img class="social-icon" src="/static/social-icons/discord.ico"><a href="https://discord.com/"> {{
+        discord_account }}</a></li>
+    {% endif %}
+  </ul>
+  </p>
+</body>
+
 </html>

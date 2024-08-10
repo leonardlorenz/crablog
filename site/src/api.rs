@@ -31,10 +31,7 @@ async fn blog_create_post(form: Form<NewPostForm>) -> impl Responder {
 }
 
 #[post("/api/blog/posts/edit/{post_id}")]
-async fn blog_edit_post(
-    post_id: web::Path<String>,
-    form: Form<NewPostForm>,
-) -> impl Responder {
+async fn blog_edit_post(post_id: web::Path<String>, form: Form<NewPostForm>) -> impl Responder {
     let (valid, id) = id_valid(post_id.into_inner());
     if valid && CONFIG.submit_token == form.token {
         edit_post_by_id(
@@ -73,10 +70,7 @@ async fn blog_delete_post(
 }
 
 #[post("/api/blog/posts/hide/{post_id}")]
-async fn blog_hide_post(
-    post_id: web::Path<String>,
-    form: Form<BlogActionForm>,
-) -> impl Responder {
+async fn blog_hide_post(post_id: web::Path<String>, form: Form<BlogActionForm>) -> impl Responder {
     let (valid, id) = id_valid(post_id.into_inner());
     if valid && CONFIG.submit_token == form.token {
         println!("Hid post: {}", id);

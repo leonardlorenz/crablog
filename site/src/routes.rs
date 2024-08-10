@@ -36,31 +36,30 @@ pub fn replace_br_tags(x: &str) -> String {
 #[get("/about")]
 async fn about(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
     let mut context = Context::new();
-    context.insert(
-        "username",
-        &CONFIG.username
-    );
-    context.insert("email", &CONFIG.email);
-
-    match &CONFIG.accounts.github { 
+    context.insert("username", &CONFIG.username);
+    match &CONFIG.accounts.email {
+        Some(acc) => context.insert("email", &acc.replace("@", " (at) ")),
+        None => (),
+    }
+    match &CONFIG.accounts.github {
         Some(acc) => context.insert("github_account", &acc),
-        None => ()
+        None => (),
     };
-    match &CONFIG.accounts.twitter { 
+    match &CONFIG.accounts.twitter {
         Some(acc) => context.insert("twitter_account", &acc),
-        None => ()
+        None => (),
     };
-    match &CONFIG.accounts.mastodon { 
+    match &CONFIG.accounts.mastodon {
         Some(acc) => context.insert("mastodon_account", &acc),
-        None => ()
+        None => (),
     };
-    match &CONFIG.accounts.reddit { 
+    match &CONFIG.accounts.reddit {
         Some(acc) => context.insert("reddit_account", &acc),
-        None => ()
+        None => (),
     };
-    match &CONFIG.accounts.discord { 
+    match &CONFIG.accounts.discord {
         Some(acc) => context.insert("discord_account", &acc),
-        None => ()
+        None => (),
     };
 
     let result = tmpl
@@ -103,8 +102,7 @@ async fn blog_all(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 #[get("/id/{post_id}")]
 async fn blog_by_id(
     tmpl: web::Data<tera::Tera>,
-    post_id: web::Path<String>
-    // web::Path(post_id): web::Path<String>,
+    post_id: web::Path<String>, // web::Path(post_id): web::Path<String>,
 ) -> Result<HttpResponse, Error> {
     let (valid, id) = id_valid(post_id.into_inner());
     if valid {
@@ -157,7 +155,7 @@ async fn blog_edit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 #[get("/edit/{post_id}")]
 async fn blog_edit_by_id(
     tmpl: web::Data<tera::Tera>,
-    post_id: web::Path<String>
+    post_id: web::Path<String>,
 ) -> Result<HttpResponse, Error> {
     let (valid, id) = id_valid(post_id.into_inner());
     if valid {
