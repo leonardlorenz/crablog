@@ -26,7 +26,8 @@ article {
 }
 
 .post-link {
-  padding-right: 20px;
+  text-decoration: none;
+  color: black;
 }
 
 .post-title {
@@ -39,6 +40,12 @@ article {
 
 .post-body {
   padding-top: 1rem;
+  margin-left: 2rem;
+}
+
+.submit-box {
+  display: flex;
+  justify-content: space-between;
 }
 
 #submit-form {

@@ -22,7 +22,7 @@ async fn main() -> std::io::Result<()> {
             Tera::new(format!("{}{}", CONFIG.root_path, "/templates/*").as_str()).unwrap();
         tera.autoescape_on(vec![".sql"]);
 
-        env_logger::Builder::from_env(Env::default().default_filter_or("info"));
+        env_logger::Builder::from_env(Env::default().default_filter_or("debug"));
 
         App::new()
             .app_data(Data::new(tera))

@@ -1,38 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% import "article.html.macro" as article_macro %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="{{ username }}' blog" />
-  <meta property="og:description" content="Last 5 posts" />
-  <meta property="og:image" content="/static/site-image.png" />
+{% block head %}
+{{ super() }}
+<meta property="og:title" content="{{ username }}' blog" />
+<meta property="og:description" content="Last 5 posts" />
+<title> {{ username }} blog </title>
+{% endblock head %}
 
-  <title> {{ username }}' blog </title>
-  <link rel="stylesheet" href="/static/css/blog.css">
-  <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico" />
-</head>
-
-<body>
-  <h1><a href="/" class="post-link" style="text-decoration:none;color:black;">{{ username }} blog</a></h1>
-  <p style="text-align: right">
-    <a href="/about">About</a>
-    <a href="/all">All Posts</a>
-  </p>
-  <ul>
-    {% for post in posts %}
-    <article>
-      <div>
-        <a href="/id/{{ post.id }}" class="post-link">[link]</a>
-      </div>
-      <div class="post-content">
-        <h2 class="post-title">{{ post.title }}</h2>
-        <sub class="post-publish-date"> {{ post.publish_date | date(format="%Y-%m-%d at %H:%M") }}</sub>
-        <p class="post-body">{{ post.body }}</p>
-      </div>
-    </article>
-    {% endfor %}
-  </ul>
-</body>
-
-</html>
+{% block content %}
+<h1><a href="/" class="post-link">{{ username }} blog</a></h1>
+<p style="text-align: right">
+  <a href="/about">About</a>
+  <a href="/all">All Posts</a>
+</p>
+<ul>
+  {% for post in posts %}
+  {{ article_macro::article(id=post.id,title=post.title,body=post.body,publish_date=post.publish_date) }}
+  {% endfor %}
+</ul>
+{% endblock content %}

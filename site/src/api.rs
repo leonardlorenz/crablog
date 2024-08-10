@@ -26,7 +26,7 @@ async fn blog_create_post(form: Form<NewPostForm>) -> impl Responder {
     }
 
     HttpResponse::MovedPermanently()
-        .insert_header(("LOCATION", "/blog"))
+        .insert_header(("LOCATION", "/"))
         .finish()
 }
 
@@ -46,7 +46,7 @@ async fn blog_edit_post(post_id: web::Path<String>, form: Form<NewPostForm>) -> 
     }
 
     return HttpResponse::MovedPermanently()
-        .insert_header(("LOCATION", "/blog"))
+        .insert_header(("LOCATION", "/"))
         .finish();
 }
 
@@ -65,7 +65,7 @@ async fn blog_delete_post(
     }
 
     return HttpResponse::MovedPermanently()
-        .insert_header(("LOCATION", "/blog"))
+        .insert_header(("LOCATION", "/"))
         .finish();
 }
 
@@ -81,7 +81,7 @@ async fn blog_hide_post(post_id: web::Path<String>, form: Form<BlogActionForm>) 
     }
 
     return HttpResponse::MovedPermanently()
-        .insert_header(("LOCATION", "/blog"))
+        .insert_header(("LOCATION", "/"))
         .finish();
 }
 

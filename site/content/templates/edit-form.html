@@ -1,43 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Edit '{{ title }}'" />
-  <meta property="og:image" content="/static/site-image.png" />
+{% block head %}
+{{ super() }}
+<title>Edit '{{ title }}'</title>
+<meta property="og:title" content="Edit '{{ title }}'" />
+{% endblock head %}
 
-  <title>Edit '{{ title }}'</title>
-  <link rel="stylesheet" href="/static/css/blog.css">
-  <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico" />
-</head>
+{% block content %}
+<form id="submit-form" action="/api/blog/posts/edit/{{ id }}" method=POST>
+  <label for="token">Password</label>
+  <br />
+  <input id="token" type="password" name="token">
+  <br />
+  <label for="title">Title</label>
+  <textarea id="submit-title" type="text" name="title">{{ title }}</textarea>
+  <br />
+  <label for="submit-body">Content</label>
+  <textarea id="submit-body" type="text" name="body">{{ body }}</textarea>
+  <br />
+  <button id="submit-button" type="submit">Edit post</button>
+</form>
 
-<body>
-  <div id="cookie-block" hidden>
-    <label for="token">Password</label>
-    </br>
-    <input id="token" type="password" name="token">
-  </div>
-
-  <form id="submit-form" action="/api/blog/posts/edit/{{ id }}" method=POST>
-    <input class="token" type="text" name="token" hidden>
-    <label for="title">Title</label>
-    <textarea id="submit-title" type="text" name="title">{{ title }}</textarea>
-    <br>
-    <label for="submit-body">Content</label>
-    <textarea id="submit-body" type="text" name="body">{{ body }}</textarea>
-    <br>
-    <button id="submit-button" type="submit">Edit post</button>
-  </form>
-
-  <form action="/api/blog/posts/hide/{{ id }}" method="POST">
-    <input class="token" type="text" name="token" hidden>
-    <button type="submit">Hide post</button>
-  </form>
-  <form action="/api/blog/posts/delete/{{ id }}" method="POST">
-    <input class="token" type="text" name="token" hidden>
-    <button type="submit">Delete post</button>
-  </form>
-</body>
-
-</html>
+<form action="/api/blog/posts/hide/{{ id }}" method="POST">
+  <input class="token" type="text" name="token" hidden>
+  <button type="submit">Hide post</button>
+</form>
+<form action="/api/blog/posts/delete/{{ id }}" method="POST">
+  <input class="token" type="text" name="token" hidden>
+  <button type="submit">Delete post</button>
+</form>
+{% endblock content %}

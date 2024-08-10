@@ -1,35 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content=" {{ post.title }} | {{ username }}' blog" />
-    <meta property="og:description" content="{{ post.body | striptags }}" />
-    <meta property="og:image" content="/static/site-image.png" />
+{% extends "base.html" %}
 
-    <title> {{ post.title }} | {{ username }}' blog </title>
-    <link rel="stylesheet" href="/static/css/blog.css">
-    <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico"/>
-  </head>
+{% block head %}
+{{ super() }}
+<meta property="og:title" content=" {{ post.title }} | {{ username }}' blog" />
+<meta property="og:description" content="{{ post.body | striptags }}" />
+<title> {{ post.title }} | {{ username }}' blog </title>
+{% endblock head %}
 
-  <body>
-    <h1><a href="/" class="post-link" style="text-decoration:none;color:black;">{{ username }}' blog</a></h1>
-    <p style="text-align: right">
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/all">All Posts</a>
-    </p>
-    <ul>
-      <article>
-        <div>
-          <a href="/id/{{ post.id }}" class="post-link">[link]</a>
-        </div>
-        <div class="post-content">
-          <h2 class="post-title">{{ post.title }}</h2>
-          <sub class="post-publish-date"> {{ post.publish_date | date(format="%Y-%m-%d at %H:%M") }}</sub>
-          <p class="post-body">{{ post.body }}</p>
-        </div>
-      </article>
-    </ul>
-  </body>
-</html>
+{% block content %}
+<h1><a href="/" class="post-link" style="text-decoration:none;color:black;">{{ username }} blog</a></h1>
+<p style="text-align: right">
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/all">All Posts</a>
+</p>
+<ul>
+  <article>
+    <div class="post-content">
+      <a href="/id/{{ post.id }}" class="post-link">
+        <h2 class="post-title">{{ post.title }}</h2>
+      </a>
+      <sub class="post-publish-date"> {{ post.publish_date | date(format="%Y-%m-%d at %H:%M") }}</sub>
+      <p class="post-body">{{ post.body }}</p>
+    </div>
+  </article>
+</ul>
+{% endblock content %}
