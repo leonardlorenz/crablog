@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<title>Submit post</title>
+<meta property="og:title" content="Submit post" />
+{% endblock head %}
+
+
+{% block content %}
+<form id="submit-form" action="/api/blog/create" method=POST>
+  <label for="title">Title</label>
+  <textarea id="submit-title" type="text" name="title">{{ title }}</textarea>
+  <br />
+  <label for="submit-body">Content</label>
+  <textarea id="submit-body" type="text" name="body">{{ body }}</textarea>
+  <br />
+  <div class="submit-box">
+    <div>
+      <label for="token">Password</label>
+      <input id="token" type="password" name="token">
+    </div>
+    <button id="submit-button" type="submit">Submit</button>
+  </div>
+</form>
+{% endblock content %}

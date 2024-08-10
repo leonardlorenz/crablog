@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<title>Edit '{{ post.title }}'</title>
+<meta property="og:title" content="Edit '{{ post.title }}'" />
+{% endblock head %}
+
+{% block content %}
+<h1><a href="/" class="hidden-link">{{ username }} blog</a></h1>
+<form id="submit-form" action="/api/blog/posts/edit/{{ post.id }}" method=POST>
+  <label for="token">Password</label>
+  <br />
+  <input id="token" type="password" name="token">
+  <br />
+  <label for="title">Title</label>
+  <textarea id="submit-title" type="text" name="title">{{ post.title }}</textarea>
+  <br />
+  <label for="submit-body">Content</label>
+  <textarea id="submit-body" type="text" name="body">{{ post.body }}</textarea>
+  <br />
+  <button id="submit-button" type="submit">Edit post</button>
+</form>
+
+<form action="/api/blog/posts/hide/{{ post.id }}" method="POST">
+  <input class="token" type="text" name="token" hidden>
+  <button type="submit">Hide post</button>
+</form>
+<form action="/api/blog/posts/delete/{{ post.id }}" method="POST">
+  <input class="token" type="text" name="token" hidden>
+  <button type="submit">Delete post</button>
+</form>
+{% endblock content %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "article.html.macro" as article_macro %}
+
+{% block head %}
+{{ super() }}
+<meta property="og:title" content=" {{ post.title }} | {{ username }} blog" />
+<meta property="og:description" content="{{ post.body | striptags }}" />
+<title> {{ post.title }} | {{ username }}' blog </title>
+{% endblock head %}
+
+{% block content %}
+<h1><a href="/" class="hidden-link">{{ username }} blog</a></h1>
+<aside class="side-nav">
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/all">All Posts</a>
+</aside>
+
+{{ article_macro::article(id=post.id,title=post.title,body=post.body,publish_date=post.publish_date) }}
+
+{% endblock content %}

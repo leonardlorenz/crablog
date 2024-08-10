@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "article.html.macro" as article_macro %}
+
+{% block head %}
+{{ super() }}
+<meta property="og:title" content="{{ username }}' blog" />
+<meta property="og:description" content="Last 5 posts" />
+<title> {{ username }} blog </title>
+{% endblock head %}
+
+{% block content %}
+<h1><a href="/" class="hidden-link">{{ username }} blog</a></h1>
+<p style="text-align: right">
+  <a href="/about">About</a>
+  <a href="/all">All Posts</a>
+</p>
+<ul>
+  {% for post in posts %}
+  {{ article_macro::article(id=post.id,title=post.title,body=post.body,publish_date=post.publish_date) }}
+  {% endfor %}
+</ul>
+{% endblock content %}

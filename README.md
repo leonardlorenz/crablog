@@ -4,6 +4,8 @@ Pure rust. Built with actix, diesel, tera, serde and sqlite3.
 
 ## Run instructions using docker
 
+**TODO REWRITE, OUTDATED**
+
 1. Clone the repository
 ```bash
 git clone https://github.com/mtrx1337/crablog
@@ -23,23 +25,22 @@ docker-compose up -d
 
 ## Configuration environment file
 
-All configuration options are defined in crablog.env, an example configuration is provided.
-When not using Docker you may have to add crablog.env to your startup script or define the variables there.
+All configuration options are defined in .env which should be placed in the path where crablog is run. An example configuration is provided:
 
-`crablog.env`
+`.env`
 ```
-USERNAME=yourusername
-EMAIL=me@mydomain.tld
-BIND_PORT=8000
-SUBMIT_TOKEN=Submit!123 # token needed for submitting
-GITHUB_ACCOUNT=usernam3
-TWITTER_ACCOUNT=usernam3
-MASTODON_ACCOUNT=usernam3@mastodon.social
-REDDIT_ACCOUNT=usernam3
-DISCORD_ACCOUNT=usernam3
+CL_USERNAME=yourusername
+CL_EMAIL=me@mydomain.tld # optional
+CL_BIND_PORT=8000 # optional
+CL_SUBMIT_TOKEN=Submit!123 # required, token needed for submitting
+CL_GITHUB_ACCOUNT=yourusername # optional
+CL_TWITTER_ACCOUNT=yourusername # optional
+CL_MASTODON_ACCOUNT=yourusername@mastodon.social # optional
+CL_REDDIT_ACCOUNT=yourusername # optional
+CL_DISCORD_ACCOUNT=yourusername # optional
 
 # only needed when not using a docker container
-ROOT_PATH=/path/to/template/directory/and/sqliteDB
+CL_ROOT_PATH=/path/to/template/directory/and/sqliteDB
 ```
 
 ## Routes
@@ -58,3 +59,7 @@ ROOT_PATH=/path/to/template/directory/and/sqliteDB
 | Route            | Description               |
 | ---------------- | ------------------------- |
 | `api/blog/posts` | returns all posts as json |
+
+## Regenerate Migrations from Schema:
+
+`diesel migration generate --diff-schema=./src/db/schema.rs create_posts`

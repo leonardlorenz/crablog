@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/blog.css">
+    <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico" />
+    <meta property="og:image" content="/static/site-image.png" />
+    {% endblock head %}
+</head>
+
+<body>
+    <div id="content">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+
+</html>
