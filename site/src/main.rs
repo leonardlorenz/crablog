@@ -1,7 +1,7 @@
 mod api;
+mod config;
 mod db;
 mod routes;
-mod config;
 
 #[macro_use]
 extern crate diesel;
@@ -11,23 +11,15 @@ extern crate tera;
 
 use actix_files as fs;
 use actix_web::{middleware::Logger, web::Data, App, HttpServer};
-use std::env;
+use config::CONFIG;
 use env_logger::Env;
 use tera::Tera;
-use config::CONFIG;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
-        let mut tera = Tera::new(
-            format!(
-                "{}{}",
-                env::var("ROOT_PATH").unwrap(),
-                "/templates/*"
-            )
-            .as_str(),
-        )
-        .unwrap();
+        let mut tera =
+            Tera::new(format!("{}{}", CONFIG.root_path, "/templates/*").as_str()).unwrap();
         tera.autoescape_on(vec![".sql"]);
 
         env_logger::Builder::from_env(Env::default().default_filter_or("info"));
@@ -48,11 +40,7 @@ async fn main() -> std::io::Result<()> {
             .service(api::blog_delete_post)
             .service(fs::Files::new(
                 "/static",
-                format!(
-                    "{}{}",
-                    CONFIG.root_path,
-                    "/static"
-                ),
+                format!("{}{}", CONFIG.root_path, "/static"),
             ))
             .wrap(Logger::new("%a %r %t"))
     })

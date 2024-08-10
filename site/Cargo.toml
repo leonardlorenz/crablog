@@ -7,7 +7,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-chrono = { version = "*", features = ["serde"] }
+chrono = { version = "0.4", features = ["serde"] }
 actix-web = "4.5.1"
 actix-files = "0.6.5"
 
@@ -15,7 +15,7 @@ serde = { version = "1.0.201", features = ["derive"] }
 serde_json = "*"
 serde_derive = "*"
 
-diesel = { version = "2.1.0", default-features = false, features = ["sqlite"] }
+diesel = { version = "2.1.0", default-features = false, features = ["sqlite", "chrono"] }
 dotenvy = "0.15"
 
 uuid = { version = "1.8.0", features = ["serde", "v5"] }

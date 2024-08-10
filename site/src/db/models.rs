@@ -1,5 +1,6 @@
-use super::schema::posts;
+use crate::db::schema::posts;
 use serde::{Deserialize, Serialize};
+
 
 #[derive(Queryable, Serialize, Deserialize)]
 pub struct Post {
@@ -11,7 +12,7 @@ pub struct Post {
 }
 
 #[derive(Insertable)]
-#[table_name = "posts"]
+#[diesel(table_name = posts)]
 pub struct NewPost<'a> {
     pub title: &'a str,
     pub body: &'a str,
