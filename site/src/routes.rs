@@ -64,7 +64,8 @@ async fn about(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 
     let result = tmpl
         .render("about.html", &context)
-        .map_err(|e| error::ErrorInternalServerError(format!("Template error\n{}", e)))?;
+        .map_err(|err| error::ErrorInternalServerError(err))
+        .unwrap();
 
     Ok(HttpResponse::Ok().content_type("text/html").body(result))
 }
@@ -79,7 +80,8 @@ async fn blog(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 
     let result = tmpl
         .render("blog.html", &context)
-        .map_err(|_| error::ErrorInternalServerError("Template error"))?;
+        .map_err(|err| error::ErrorInternalServerError(err))
+        .unwrap();
 
     Ok(HttpResponse::Ok().content_type("text/html").body(result))
 }
@@ -94,7 +96,8 @@ async fn blog_all(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 
     let result = tmpl
         .render("blog-all-posts.html", &context)
-        .map_err(|_| error::ErrorInternalServerError("Template error"))?;
+        .map_err(|err| error::ErrorInternalServerError(err))
+        .unwrap();
 
     Ok(HttpResponse::Ok().content_type("text/html").body(result))
 }
@@ -113,12 +116,13 @@ async fn blog_by_id(
         }
 
         let mut context = Context::new();
-        context.insert("post", &post);
         context.insert("username", &CONFIG.username);
+        context.insert("post", &post);
 
         let result = tmpl
             .render("blog-by-id.html", &context)
-            .map_err(|_| error::ErrorInternalServerError("Template error"))?;
+            .map_err(|err| error::ErrorInternalServerError(err))
+            .unwrap();
 
         return Ok(HttpResponse::Ok().content_type("text/html").body(result));
     } else {
@@ -134,7 +138,8 @@ async fn blog_submit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error>
 
     let result = tmpl
         .render("submit.html", &context)
-        .map_err(|_| error::ErrorInternalServerError("Template error"))?;
+        .map_err(|err| error::ErrorInternalServerError(err))
+        .unwrap();
 
     return Ok(HttpResponse::Ok().content_type("text/html").body(result));
 }
@@ -147,7 +152,8 @@ async fn blog_edit(tmpl: web::Data<tera::Tera>) -> Result<HttpResponse, Error> {
 
     let result = tmpl
         .render("edit.html", &context)
-        .map_err(|_| error::ErrorInternalServerError("Template error"))?;
+        .map_err(|err| error::ErrorInternalServerError(err))
+        .unwrap();
 
     Ok(HttpResponse::Ok().content_type("text/html").body(result))
 }
@@ -165,13 +171,13 @@ async fn blog_edit_by_id(
         post.body = replace_br_tags(&post.body);
 
         let mut context = Context::new();
-        context.insert("title", &post.title);
-        context.insert("body", &post.body);
-        context.insert("id", &id);
+        context.insert("username", &CONFIG.username);
+        context.insert("post", &post);
 
         let result = tmpl
             .render("edit-form.html", &context)
-            .map_err(|_| error::ErrorInternalServerError("Template error"))?;
+            .map_err(|err| error::ErrorInternalServerError(err))
+            .unwrap();
 
         Ok(HttpResponse::Ok().content_type("text/html").body(result))
     } else {
