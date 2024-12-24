@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Edit posts..." />
-    <meta property="og:image" content="/static/site-image.png" />
+{% extends "base.html" %}
 
-    <title>Edit posts...</title>
-    <link rel="stylesheet" href="/static/css/blog.css">
-    <link rel="shortcut icon" type="image/jpg" href="/static/favicon.ico"/>
-  </head>
-  <body>
-    <h1><a href="/" class="post-link" style="text-decoration:none;color:black;">{{ username }}' blog</a></h1>
-    <h2>Edit posts</h2>
-    <ul style="list-style: none;">
-      {% for post in posts %}
-      <li><a href="/edit/{{ post.id }}">{{ post.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+{% block head %}
+{{ super() }}
+<meta property="og:title" content="Edit posts..." />
+<title>Edit posts...</title>
+{% endblock head %}
+
+{% block content %}
+<h1><a href="/" class="hidden-link">{{ username }} blog</a></h1>
+<h2>Edit posts</h2>
+<ul style="list-style: none;">
+  {% for post in posts %}
+  <li><a href="/edit/{{ post.id }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock content %}
