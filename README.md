@@ -39,6 +39,7 @@ where crablog is run. An example configuration is provided:
 CL_USERNAME=yourusername
 CL_EMAIL=me@mydomain.tld # optional
 CL_BIND_PORT=8000 # optional
+CL_SUBMIT_TOKEN=Submit!123 # required, token needed for submitting / "login password"
 CL_SESSION_SECRET=<some long generated secret> # required, session key encryption secret
 CL_GITHUB_ACCOUNT=yourusername # optional
 CL_TWITTER_ACCOUNT=yourusername # optional

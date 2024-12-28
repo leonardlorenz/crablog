@@ -10,6 +10,7 @@ extern crate serde_derive;
 extern crate tera;
 
 use actix_files as fs;
+use actix_identity::IdentityMiddleware;
 use actix_session::{storage::CookieSessionStore, SessionMiddleware};
 use actix_web::cookie::Key;
 use actix_web::{middleware::Logger, web::Data, App, HttpServer};
@@ -30,6 +31,7 @@ async fn main() -> std::io::Result<()> {
         env_logger::Builder::from_env(Env::default().default_filter_or("debug"));
 
         App::new()
+            .wrap(IdentityMiddleware::default())
             .wrap(SessionMiddleware::new(
                 CookieSessionStore::default(),
                 SESSION_COOKIE_SECRET_KEY.clone(),
