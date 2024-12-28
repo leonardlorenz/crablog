@@ -10,10 +10,15 @@ extern crate serde_derive;
 extern crate tera;
 
 use actix_files as fs;
+use actix_session::{storage::CookieSessionStore, SessionMiddleware};
+use actix_web::cookie::Key;
 use actix_web::{middleware::Logger, web::Data, App, HttpServer};
 use config::CONFIG;
 use env_logger::Env;
+use once_cell::sync::Lazy;
 use tera::Tera;
+
+static SESSION_COOKIE_SECRET_KEY: Lazy<Key> = Lazy::new(|| Key::generate());
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -25,6 +30,10 @@ async fn main() -> std::io::Result<()> {
         env_logger::Builder::from_env(Env::default().default_filter_or("debug"));
 
         App::new()
+            .wrap(SessionMiddleware::new(
+                CookieSessionStore::default(),
+                SESSION_COOKIE_SECRET_KEY.clone(),
+            ))
             .app_data(Data::new(tera))
             .service(routes::about)
             .service(routes::blog)
