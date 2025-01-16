@@ -1,19 +1,39 @@
 use crate::config::CONFIG;
 use crate::db::*;
 use crate::routes::{id_valid, replace_newlines};
+use actix_identity::Identity;
 use actix_web::{get, http::StatusCode, post, web, web::Form, HttpResponse, Responder};
-use serde::Deserialize;
+use actix_web::{HttpMessage, HttpRequest};
 
-#[derive(Deserialize)]
-struct NewPostForm {
-    title: String,
-    body: String,
-    token: String,
+use crate::form_data::NewPostForm;
+use crate::form_data::{BlogActionForm, LoginForm};
+
+#[get("/")]
+async fn index(user: Option<Identity>) -> impl Responder {
+    if let Some(user) = user {
+        format!("Welcome! {}", user.id().unwrap())
+    } else {
+        "Welcome Anonymous!".to_owned()
+    }
 }
 
-#[derive(Deserialize)]
-struct BlogActionForm {
-    token: String,
+#[post("/login")]
+async fn blog_login(form: Form<LoginForm>, req: HttpRequest) -> impl Responder {
+    let submitted_login_token = form.login_token.clone();
+    if submitted_login_token == CONFIG.login_token {
+        // attach a verified user identity to the active session
+        Identity::login(&req.extensions(), "default_user".into()).unwrap();
+
+        HttpResponse::Ok()
+    } else {
+        HttpResponse::Unauthorized()
+    }
+}
+
+#[post("/logout")]
+async fn blog_logout(user: Identity) -> impl Responder {
+    user.logout();
+    HttpResponse::Ok()
 }
 
 #[post("/api/blog/create")]
@@ -51,12 +71,10 @@ async fn blog_edit_post(post_id: web::Path<String>, form: Form<NewPostForm>) -> 
 }
 
 #[post("/api/blog/posts/delete/{post_id}")]
-async fn blog_delete_post(
-    post_id: web::Path<String>,
-    form: Form<BlogActionForm>,
-) -> impl Responder {
+async fn blog_delete_post(post_id: web::Path<String>) -> impl Responder {
     let (valid, id) = id_valid(post_id.into_inner());
-    if valid && CONFIG.submit_token == form.token {
+    // TODO
+    if valid && AUTHENTICATED {
         println!("Deleted post: {}", id);
         delete_post_by_id(id as i32);
     } else {
@@ -86,7 +104,10 @@ async fn blog_hide_post(post_id: web::Path<String>, form: Form<BlogActionForm>) 
 }
 
 #[get("/api/blog/posts")]
-async fn blog_get_posts_json() -> impl Responder {
-    let posts = get_all_posts();
-    HttpResponse::Ok().json(posts)
+async fn get_posts_json(user: Option<Identity>) -> impl Responder {
+    if let Some(user) = user {
+        let posts = get_all_posts();
+        HttpResponse::Ok().json(posts)
+    }
+    return HttpResponse::new(StatusCode::UNAUTHORIZED);
 }

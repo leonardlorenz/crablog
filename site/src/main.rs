@@ -1,6 +1,7 @@
 mod api;
 mod config;
 mod db;
+mod form_data;
 mod routes;
 
 #[macro_use]
@@ -44,6 +45,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::blog_submit)
             .service(routes::blog_edit)
             .service(routes::blog_edit_by_id)
+            .service(api::blog_login)
             .service(api::blog_get_posts_json)
             .service(api::blog_create_post)
             .service(api::blog_edit_post)

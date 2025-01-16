@@ -4,7 +4,7 @@ use once_cell::sync::Lazy;
 pub const ENV_PREFIX: &str = "CL_";
 
 pub struct Config {
-    pub submit_token: String,
+    pub login_token: String,
     pub session_secret: String,
     pub root_path: String,
     pub username: String,
@@ -66,7 +66,7 @@ fn load_config() -> Config {
     }
 
     Config {
-        submit_token: eval_conf_var("SUBMIT_TOKEN", true, None).unwrap(),
+        login_token: eval_conf_var("SUBMIT_TOKEN", true, None).unwrap(),
         session_secret: eval_conf_var("SESSION_SECRET", true, None).unwrap(),
         root_path: eval_conf_var("ROOT_PATH", false, Some("./content")).unwrap(),
         username: eval_conf_var("USERNAME", true, None).unwrap(),
